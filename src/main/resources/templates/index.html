@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dalaoyang</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span th:text="${projectName}"/></a>
+        </div>
+        <!--<div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>-->
+    </div><!-- /.container -->
+</nav><!-- /.navbar -->
+
+
+<div class="container">
+
+    <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+           <!-- <p class="pull-right visible-xs">
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+            </p>-->
+            <div class="jumbotron">
+               <!-- <h1><span th:text="${projectName}"/></h1>
+                <p><span th:text="${projectState}"/></p>-->
+            </div>
+
+            <div class="row">
+                <div id="div_systemInfo" th:fragment="div_systemInfo">
+                    <div class="col-xs-6 col-lg-4">
+                        <h2>CPU情况</h2>
+                        <p><span th:text="${cpuResult}"/></p>
+                    </div>
+                    <div class="col-xs-6 col-lg-4">
+                        <h2>内存情况</h2>
+                        <p><span th:text="${memResult}"/></p>
+                    </div>
+                    <div class="col-xs-6 col-lg-4">
+                        <h2>网络情况</h2>
+                        <p><span th:text="${networkResult}"/></p>
+                    </div>
+                    <div class="col-xs-6 col-lg-4">
+                        <h2>JVM情况</h2>
+                        <p th:each="jvmInfo:${jvmInfoList}">
+                            ●<span th:text="${jvmInfo}"></span>
+                        </p>
+                    </div>
+                    <div class="col-xs-6 col-lg-4">
+                        <h2>磁盘情况</h2>
+                        <p>
+                        <table border="1px solid #ccc">
+                            <tr th:each="diskInfo:${diskInfoList}">
+                                <td width="120" th:text="${diskInfo['FileSystem']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="50" th:text="${diskInfo['Size']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="50" th:text="${diskInfo['Used']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="50" th:text="${diskInfo['Avail']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="50" th:text="${diskInfo['Use%']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="50" th:text="${diskInfo['Mounton']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                            </tr>
+                        </table>
+                        </p>
+                    </div>
+                    <div class="col-xs-6 col-lg-4">
+                        <h2>磁盘IO情况</h2>
+                        <p>
+                        <table border="1px solid #ccc">
+                            <tr th:each="diskIOInfo:${diskIOInfoList}">
+                                <td width="50" th:text="${diskIOInfo['User']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="80" th:text="${diskIOInfo['DiskRead']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="80" th:text="${diskIOInfo['DiskWrite']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                                <td width="150" th:text="${diskIOInfo['Command']}"
+                                    style="word-wrap:break-word;word-break:break-all;"/>
+                            </tr>
+                        </table>
+                        </p>
+                    </div>
+                </div>
+
+            </div><!--/row-->
+        </div><!--/.col-xs-12.col-sm-9-->
+
+    </div><!--/row-->
+
+    <hr/>
+
+
+</div><!--/.container-->
+
+
+</body>
+
+<script>
+    var timer;
+    $(document).ready(function (e) {
+        refreshSystemInfoTimer();//先加载一遍
+        refreshSystemInfo();
+        setInterval("closeSystemInfoTimer()", 1000*600);
+    });
+
+    function refreshSystemInfo() {
+        timer = setInterval("refreshSystemInfoTimer()", 2000);
+    }
+
+    function refreshSystemInfoTimer() {
+        var url = '/hello/testHtmlRefresh';
+        $('#div_systemInfo').load(url);
+    }
+
+    function closeSystemInfoTimer() {
+        alert("实时刷新数据已关闭，请刷新页面重新开启");
+        clearInterval(timer);
+    }
+</script>
+</html>

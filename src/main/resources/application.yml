@@ -1,0 +1,34 @@
+server:
+  port: 9090
+
+schedule:
+  enabled: true
+
+projectName: 龙丽温项目Linux服务器信息
+
+spring:
+  profiles:
+    active: prod
+  mail:
+    host: smtp.qq.com
+    username: 657833483@qq.com
+    password: snelzcnclucfbdbe
+    port: 465
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      mail.smtp.socketFactory.port: 465
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+    mode: HTML5
+
+logging:
+  level:
+    root: info
+  file: /usr/local/systemInfoMonitor/systemInfoMonitor.log
